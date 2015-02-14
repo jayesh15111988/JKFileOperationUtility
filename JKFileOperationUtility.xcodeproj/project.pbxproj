@@ -14,6 +14,7 @@
 		381C76621A8FC75E000F55DA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 381C76601A8FC75E000F55DA /* LaunchScreen.xib */; };
 		381C766E1A8FC75E000F55DA /* JKFileOperationUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C766D1A8FC75E000F55DA /* JKFileOperationUtilityTests.m */; };
 		381C76791A8FC82F000F55DA /* JKFileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C76781A8FC82F000F55DA /* JKFileOperation.m */; };
+		381C767D1A9008A9000F55DA /* JKFileOperationDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C767C1A9008A9000F55DA /* JKFileOperationDemoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		381C766D1A8FC75E000F55DA /* JKFileOperationUtilityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKFileOperationUtilityTests.m; sourceTree = "<group>"; };
 		381C76771A8FC82F000F55DA /* JKFileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKFileOperation.h; sourceTree = "<group>"; };
 		381C76781A8FC82F000F55DA /* JKFileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFileOperation.m; sourceTree = "<group>"; };
+		381C767B1A9008A9000F55DA /* JKFileOperationDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKFileOperationDemoViewController.h; sourceTree = "<group>"; };
+		381C767C1A9008A9000F55DA /* JKFileOperationDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFileOperationDemoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,7 @@
 		381C76501A8FC75E000F55DA /* JKFileOperationUtility */ = {
 			isa = PBXGroup;
 			children = (
+				381C767A1A900893000F55DA /* Controllers */,
 				381C76551A8FC75E000F55DA /* AppDelegate.h */,
 				381C76561A8FC75E000F55DA /* AppDelegate.m */,
 				381C765B1A8FC75E000F55DA /* Main.storyboard */,
@@ -117,6 +121,15 @@
 				381C766C1A8FC75E000F55DA /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		381C767A1A900893000F55DA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				381C767B1A9008A9000F55DA /* JKFileOperationDemoViewController.h */,
+				381C767C1A9008A9000F55DA /* JKFileOperationDemoViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				381C767D1A9008A9000F55DA /* JKFileOperationDemoViewController.m in Sources */,
 				381C76571A8FC75E000F55DA /* AppDelegate.m in Sources */,
 				381C76541A8FC75E000F55DA /* main.m in Sources */,
 				381C76791A8FC82F000F55DA /* JKFileOperation.m in Sources */,
