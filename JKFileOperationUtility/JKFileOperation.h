@@ -35,12 +35,14 @@ typedef NSInteger OperationStatus;
 @interface JKFileOperation : NSObject
 
 + (FolderCreationStatus)createOrCheckForFolderWithName:(NSString*)newFolderName;
-+ (FileCreationStatus)storeFileWithURL:(NSString*)fileSourceURL inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)imageFileName;
+//We will make it block based API, as downloading images from remote URL can take longer time and need to run that operation on background thread
++ (void)storeFileWithURL:(NSString*)fileSourceURL inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)imageFileName completion:(void (^)(FileCreationStatus status))completion;
 + (FileCreationStatus)storeImageWithImage:(UIImage*)imageToStore inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)fileName;
 + (OperationStatus)removeAllFilesFromFolder:(NSString*)folderName;
 + (OperationStatus)removeFolderFromDefaultDocumentDirectory:(NSString*)folderName;
 + (NSArray*)getListOfAllFilesFromFolder:(NSString*)folderName;
 + (OperationStatus)moveFile:(NSString*)fileName fromFolder:(NSString*)sourceFolder toDestinationFolder:(NSString*)destinationFolder;
 + (NSArray*)getListOfAllFolderFromDefaultDirectory;
++ (OperationStatus)renameFile:(NSString*)sourceFileName toDestinationFileName:(NSString*)destinationFileName andFolderName:(NSString*)folderName;
 
 @end
