@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "JKFileOperation.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSArray* allFolder = [JKFileOperation getListOfAllFolderFromDefaultDirectory];
     return YES;
 }
 

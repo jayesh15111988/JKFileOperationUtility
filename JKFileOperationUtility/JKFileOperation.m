@@ -8,7 +8,7 @@
 
 #import "JKFileOperation.h"
 
-#ifdef DEBUG
+#if defined(DEBUG) && !defined(DISABLELOG)
 #define DLog(xx, ...) NSLog (@"%s(%d): " xx, ((strrchr (__FILE__, '/') ?: __FILE__ - 1) + 1), __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(xx, ...) ((void)0)
