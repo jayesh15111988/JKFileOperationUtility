@@ -7,6 +7,21 @@ This was the time when I though it's moment to write a library to do this stuff 
 
 I wrote this pod in anticipation that it will help someone else down the road as it did to me. 
 
+##Note :
+**Please note following instructions before integrating this library into your project :**
+
+1. Project is currently maintained on two branches. ```master``` and ```instance_branch```. Master is the one where all methods are class method which does not create instance and thus requires to get value of root documents directory and file manager each time any method is called. This is useful when you are not using too many file operation at the time
+
+2. If you are using many file operation methods in given class, it is preferrable to create one instance and then use it to call other methods. It is beneficial in the way that we do not need to create instance of file manager and default file manager each time method is called
+
+3. So in short, you are looking for an API with class methods, please use ```master``` branch. However, if you are looking to create instance in the beginning and then use to call multiple file operations methods, use ```instance_branch``` branch
+
+4. Method ```(FolderCreationStatus)createOrCheckForFolderWithName:(NSString*)newFolderName;``` allows creation of hierarchical folder system. You can specify folder name as ```firstFolder/secondFolder/thirdFolder``` and it will create whole hierarchy starting with ```firstFolder``` as a parent and ```thirdFolder``` as child. Please note that you cannot specify folder name with ```/``` character in it. It will rather take it as a special character and will create hierarchy rather than creating single folder
+
+5. For example you cannot create folder as ```folderNameWith/insideit``` will not create folder named ```folderNameWith/insideit```. It will rather create ```folderNameWith``` and another folder ```insideIt``` as its child
+
+6. However, if you are creating a new file, it will escape all ```/``` character in it as we do not want to create whole hierarchy. while creating new file. Character ```/``` will be replaced with ```-```. Library has a list of white charactecter which are allowed. Characters which are not in this list will simply be replaced by ```-```. Allowed characters in file name are : Small and capital alphabets, numbers, underscore (```_```), space and exclamation point (```!```)
+
 ##How to add library to the project.
 
 * Download library from https://github.com/jayesh15111988/JKFileOperationUtility and manually add it to your current project by dragging in *.xcodeproj file. This is kind of way I wouldn't recommend you to follow. Better way is to automatically add relevant project files in the working directory through Cocoapods.
