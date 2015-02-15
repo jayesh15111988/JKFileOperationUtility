@@ -85,7 +85,77 @@
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="-288" y="188"/>
+            <point key="canvasLocation" x="-310" y="188"/>
+        </scene>
+        <!--Files From Folder View Controller-->
+        <scene sceneID="cHP-zH-hvF">
+            <objects>
+                <viewController storyboardIdentifier="filescollection" automaticallyAdjustsScrollViewInsets="NO" id="3op-Nz-Jds" customClass="JKFilesFromFolderViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hUC-A1-Mf5"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Jm-a2-N7U"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dso-YN-Kdc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4Iu-Rl-8ZY">
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="filedetailscell" rowHeight="100" id="Zox-kM-p9X" customClass="JKFileNameTableViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zox-kM-p9X" id="mxv-IJ-SBO">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ygX-98-ngz">
+                                                    <rect key="frame" x="10" y="0.0" width="150" height="99.5"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="iPM-FI-Lue">
+                                                    <rect key="frame" x="178" y="25" width="125" height="50"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="fileImage" destination="ygX-98-ngz" id="XQf-ZZ-EJ6"/>
+                                            <outlet property="fileName" destination="iPM-FI-Lue" id="0Gq-M8-h8k"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="3op-Nz-Jds" id="wuq-Pq-McO"/>
+                                    <outlet property="delegate" destination="3op-Nz-Jds" id="jUQ-PS-neb"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3Jm-a2-N7U" firstAttribute="top" secondItem="4Iu-Rl-8ZY" secondAttribute="bottom" id="9Ki-tA-1IV"/>
+                            <constraint firstItem="4Iu-Rl-8ZY" firstAttribute="top" secondItem="hUC-A1-Mf5" secondAttribute="bottom" id="bJX-RD-oc5"/>
+                            <constraint firstItem="4Iu-Rl-8ZY" firstAttribute="leading" secondItem="Dso-YN-Kdc" secondAttribute="leadingMargin" constant="-16" id="dhN-rm-lfj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4Iu-Rl-8ZY" secondAttribute="trailing" constant="-16" id="nlW-mK-pme"/>
+                        </constraints>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="footer" destination="HhH-ik-kUK" id="mRL-Ed-8o0"/>
+                        <outlet property="tableView" destination="4Iu-Rl-8ZY" id="4hw-ZO-iJr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DHh-oT-oGi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="HhH-ik-kUK">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="79" y="188"/>
         </scene>
     </scenes>
 </document>

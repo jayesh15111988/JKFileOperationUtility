@@ -69,9 +69,13 @@
     if (![fileManager fileExistsAtPath:fullImageFilePath] && isURLValid) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
             NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:fileSourceURL]];
-            BOOL didFileWriteSucceed = [UIImagePNGRepresentation ([UIImage imageWithData:imageData]) writeToFile:fullImageFilePath atomically:YES];
-            status = didFileWriteSucceed ? NewFileCreated : FileDidNotCreateWithError;
-            DLog(@"File successfully download and stored in the folder %@", folderName);
+            if(imageData != nil) {
+                BOOL didFileWriteSucceed = [UIImagePNGRepresentation ([UIImage imageWithData:imageData]) writeToFile:fullImageFilePath atomically:YES];
+                status = didFileWriteSucceed ? NewFileCreated : FileDidNotCreateWithError;
+                DLog(@"File successfully download and stored in the folder %@", folderName);
+            } else {
+                status = FileDidNotCreateWithError;
+            }
             completion(status);
         });
 
