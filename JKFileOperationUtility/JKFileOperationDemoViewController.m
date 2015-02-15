@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray* allFoldersList;
 @property (strong, nonatomic) IBOutlet UIView *footerView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIBarButtonItem* leftBarButtonItem;
 @end
 
 @implementation JKFileOperationDemoViewController
@@ -26,11 +27,10 @@
     [super viewDidLoad];
     self.title = @"File Operation Demo";
     self.tableView.tableFooterView = self.footerView;
-    [self getRecentFoldersAndReloadTable];
     //Add right bar button item to navigation bar
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFolder)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAllFolders)];
-
+    [self getRecentFoldersAndReloadTable];
 }
 
 #pragma tableView datasource and delegate methods
@@ -122,7 +122,9 @@
     [alert show];
 }
 
+
 -(void)deleteAllFolders {
+    
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Delete All Folders" message:@"Are you sure you want to remove all folders listed here?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
         if([indexSelected integerValue] > 0) {
@@ -139,6 +141,7 @@
     self.allFoldersList = [JKFileOperation getListOfAllFolderFromDefaultDirectory];
     [self.tableView reloadData];
     self.noFolderFoundView.hidden = ([self.allFoldersList count] != 0);
+    self.navigationItem.leftBarButtonItem.enabled = (self.noFolderFoundView.hidden);
 }
 
 @end
