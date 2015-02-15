@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIView *footerView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIBarButtonItem* leftBarButtonItem;
+@property (strong, nonatomic) JKFileOperation* fileOperationInstance;
 @end
 
 @implementation JKFileOperationDemoViewController
@@ -25,7 +26,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.title = @"File Operation Demo";
+    self.fileOperationInstance = [JKFileOperation sharedInstance];
+    self.title = @"Available Folders in Root";
     self.tableView.tableFooterView = self.footerView;
     //Add right bar button item to navigation bar
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFolder)];
@@ -36,6 +38,7 @@
 #pragma tableView datasource and delegate methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JKFolderNameTableViewCell* cell = (JKFolderNameTableViewCell*) [tableView dequeueReusableCellWithIdentifier:@"foldernamecell" forIndexPath:indexPath];
+
     NSString* currentFolderName = self.allFoldersList[indexPath.row];
     cell.folderNameLabel.text = currentFolderName;
     cell.rightUtilityButtons = [self rightButtons];
@@ -52,6 +55,10 @@
     NSString* selectedFolder = self.allFoldersList[indexPath.row];
     filesViewerViewController.selectedFolder = selectedFolder;
     [self.navigationController pushViewController:filesViewerViewController animated:YES];
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
+    NSLog(@"%ld",state);
 }
 
 - (NSArray *)rightButtons {
@@ -77,7 +84,7 @@
             if([indexSelected integerValue] > 0) {
                 NSString* nameForNewFolder = [[alert textFieldAtIndex:0] text];
                 if((![folderName isEqualToString:nameForNewFolder]) && nameForNewFolder.length > 0) {
-                    [JKFileOperation renameFolderWithSourceName:folderName andDestinationFolder:nameForNewFolder];
+                    [self.fileOperationInstance renameFolderWithSourceName:folderName andDestinationFolder:nameForNewFolder];
                     [self getRecentFoldersAndReloadTable];
                 }
             }
@@ -87,7 +94,7 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Delete Folder" message:@"Are you sure you want to remove selected folder?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
             if([indexSelected integerValue] > 0) {
-                [JKFileOperation removeFolderFromDefaultDocumentDirectory:folderName];
+                [self.fileOperationInstance removeFolderFromDefaultDocumentDirectory:folderName];
                 [self  getRecentFoldersAndReloadTable];
             } else {
                 [cell hideUtilityButtonsAnimated:YES];
@@ -99,7 +106,7 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Delete All" message:@"Are you sure you want to remove all files from selected folder?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
             if([indexSelected integerValue] > 0) {
-                [JKFileOperation removeAllFilesFromFolder:folderName];
+                [self.fileOperationInstance removeAllFilesFromFolder:folderName];
                 [self getRecentFoldersAndReloadTable];
             }
         }];
@@ -114,7 +121,7 @@
         if([indexSelected integerValue] > 0) {
             NSString* folderName = [[alert textFieldAtIndex:0] text];
             if(folderName.length > 0) {
-                [JKFileOperation createOrCheckForFolderWithName:folderName];
+                [self.fileOperationInstance createOrCheckForFolderWithName:folderName];
                 [self getRecentFoldersAndReloadTable];
             }
         }
@@ -129,7 +136,7 @@
     [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
         if([indexSelected integerValue] > 0) {
             for(NSString* individualFolderName in self.allFoldersList) {
-                [JKFileOperation removeFolderFromDefaultDocumentDirectory:individualFolderName];
+                [self.fileOperationInstance removeFolderFromDefaultDocumentDirectory:individualFolderName];
             }
             [self getRecentFoldersAndReloadTable];
         }
@@ -138,7 +145,7 @@
 }
 
 -(void)getRecentFoldersAndReloadTable {
-    self.allFoldersList = [JKFileOperation getListOfAllFolderFromDefaultDirectory];
+    self.allFoldersList = [self.fileOperationInstance getListOfAllFolderFromDefaultDirectory];
     [self.tableView reloadData];
     self.noFolderFoundView.hidden = ([self.allFoldersList count] != 0);
     self.navigationItem.leftBarButtonItem.enabled = (self.noFolderFoundView.hidden);

@@ -17,12 +17,14 @@
 @property (strong, nonatomic) NSArray* filesCollection;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *filesNotFoundView;
+@property (strong, nonatomic) JKFileOperation* fileOperationInstance;
 @end
 
 @implementation JKFilesFromFolderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.fileOperationInstance = [JKFileOperation sharedInstance];
     self.title = self.selectedFolder;
      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFile)];
     self.tableView.tableFooterView = self.footer;
@@ -30,7 +32,7 @@
 }
 
 -(void)getAllFilesFromCurrentFolderAndReloadTable {
-    self.filesCollection = [JKFileOperation getListOfAllFilesFromFolder:self.selectedFolder];
+    self.filesCollection = [self.fileOperationInstance getListOfAllFilesFromFolder:self.selectedFolder];
     [self.tableView reloadData];
     [self.activityIndicator stopAnimating];
     self.filesNotFoundView.hidden = ([self.filesCollection count] != 0);
@@ -75,9 +77,11 @@
             if([indexSelected integerValue] > 0) {
                 NSString* nameForNewFile = [[alert textFieldAtIndex:0] text];
                 if((![fileName isEqualToString:nameForNewFile]) && nameForNewFile.length > 0) {
-                    [JKFileOperation renameFile:fileName toDestinationFileName:[NSString stringWithFormat:@"%@.png",nameForNewFile] andFolderName:self.selectedFolder];
+                    [self.fileOperationInstance renameFile:fileName toDestinationFileName:[NSString stringWithFormat:@"%@.png",nameForNewFile] andFolderName:self.selectedFolder];
                     [self getAllFilesFromCurrentFolderAndReloadTable];
                 }
+            } else {
+                [cell hideUtilityButtonsAnimated:YES];
             }
         }];
         [alert show];
@@ -86,7 +90,7 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Delete File" message:@"Are you sure you want to remove selected File?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
             if([indexSelected integerValue] > 0) {
-                [JKFileOperation removeFile:fileName fromFolder:self.selectedFolder];
+                [self.fileOperationInstance removeFile:fileName fromFolder:self.selectedFolder];
                 [self getAllFilesFromCurrentFolderAndReloadTable];
             } else {
                 [cell hideUtilityButtonsAnimated:YES];
@@ -101,9 +105,11 @@
             if([indexSelected integerValue] > 0) {
                 NSString* updatedFolder = [[alert textFieldAtIndex:0] text];
                 if(![updatedFolder isEqualToString:self.selectedFolder] && updatedFolder.length > 0) {
-                    [JKFileOperation moveFile:fileName fromFolder:self.selectedFolder toDestinationFolder:updatedFolder];
+                    [self.fileOperationInstance moveFile:fileName fromFolder:self.selectedFolder toDestinationFolder:updatedFolder];
                     [self getAllFilesFromCurrentFolderAndReloadTable];
                 }
+            } else {
+                [cell hideUtilityButtonsAnimated:YES];
             }
         }];
         [alert show];
@@ -131,7 +137,7 @@
             NSString* inputURLValue = [[alert textFieldAtIndex:0] text];
             if(inputURLValue > 0) {
                 [self.activityIndicator startAnimating];
-                [JKFileOperation storeFileWithURL:inputURLValue inFolderWithName:self.selectedFolder andImageFileName:[self generateRandomString] completion:^(FileCreationStatus status) {
+                [self.fileOperationInstance storeFileWithURL:inputURLValue inFolderWithName:self.selectedFolder andImageFileName:[self generateRandomString] completion:^(FileCreationStatus status) {
                     if(status == NewFileCreated) {
                         dispatch_async(dispatch_get_main_queue(), ^(void) {
                             [self getAllFilesFromCurrentFolderAndReloadTable];

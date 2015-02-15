@@ -20,29 +20,41 @@
 
 @implementation JKFileOperation
 
++ (JKFileOperation*)sharedInstance {
+    static dispatch_once_t once;
+    static JKFileOperation* sharedInstance;
+    
+    dispatch_once(&once, ^ {
+        sharedInstance = [self new];
+        sharedInstance.rootDocumentDirectory = [self applicationDocumentsDirectory];
+        sharedInstance.fileManager = [NSFileManager defaultManager];
+    });
+    
+    return sharedInstance;
+}
+
 + (NSString *) applicationDocumentsDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
 }
 
-+(NSString*)escapeName:(NSString*)inputFileName {
+- (NSString*)escapeName:(NSString*)inputFileName {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9_ !]+" options:0 error:nil];
     return [[regex stringByReplacingMatchesInString:inputFileName options:0 range:NSMakeRange(0, inputFileName.length) withTemplate:@"-"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
 }
 
-+ (FolderCreationStatus)createOrCheckForFolderWithName:(NSString*)newFolderName {
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+- (FolderCreationStatus)createOrCheckForFolderWithName:(NSString*)newFolderName {
     
     newFolderName = [self escapeName:newFolderName];
-    NSString* fullFolderPath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:newFolderName];
+    NSString* fullFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:newFolderName];
     BOOL isDir;
     NSError* error = nil;
     FolderCreationStatus status;
     
     //Also creates nested directory paths like /item1/item2/item3 etc.
-    if (![fileManager fileExistsAtPath:fullFolderPath isDirectory:&isDir]) {
-        if (![fileManager createDirectoryAtPath:fullFolderPath withIntermediateDirectories:YES attributes:nil error:&error]) {
+    if (![self.fileManager fileExistsAtPath:fullFolderPath isDirectory:&isDir]) {
+        if (![self.fileManager createDirectoryAtPath:fullFolderPath withIntermediateDirectories:YES attributes:nil error:&error]) {
             DLog (@"Error: Create folder failed at path %@ with an Error %@", newFolderName, [error localizedDescription]);
             status = FolderDidNotCreateWithError;
         } else {
@@ -57,15 +69,14 @@
     return status;
 }
 
-+ (void)storeFileWithURL:(NSString*)fileSourceURL inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)imageFileName completion:(void (^)(FileCreationStatus status))completion {
+- (void)storeFileWithURL:(NSString*)fileSourceURL inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)imageFileName completion:(void (^)(FileCreationStatus status))completion {
     
     folderName = [self escapeName:folderName];
-    NSString* fullImageFilePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@.png", folderName, imageFileName]];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* fullImageFilePath = [self.rootDocumentDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@.png", folderName, imageFileName]];
     __block FileCreationStatus status = NewFileCreated;
     BOOL isURLValid = ![self isValueNullOrNil:fileSourceURL];
 
-    if (![fileManager fileExistsAtPath:fullImageFilePath] && isURLValid) {
+    if (![self.fileManager fileExistsAtPath:fullImageFilePath] && isURLValid) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
             NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:fileSourceURL]];
             if(imageData != nil) {
@@ -90,13 +101,12 @@
     }
 }
 
-+ (FileCreationStatus)storeImageWithImage:(UIImage*)imageToStore inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)fileName {
+- (FileCreationStatus)storeImageWithImage:(UIImage*)imageToStore inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)fileName {
     FileCreationStatus status = NewFileCreated;
     folderName = [self escapeName:folderName];
-    NSString* fullFilePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@.png", folderName, fileName]];
+    NSString* fullFilePath = [self.rootDocumentDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@.png", folderName, fileName]];
     BOOL isDir = false;
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    if([fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir]) {
+    if([self.fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir]) {
         status = FileExistsDidNotCreateNew;
     } else {
         BOOL didFileWriteSucceed = [UIImagePNGRepresentation (imageToStore) writeToFile:fullFilePath atomically:YES];
@@ -106,23 +116,22 @@
     return status;
 }
 
-+ (OperationStatus)removeAllFilesFromFolder:(NSString*)folderName {
+- (OperationStatus)removeAllFilesFromFolder:(NSString*)folderName {
     
     BOOL isDir;
     folderName = [self escapeName:folderName];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
     OperationStatus status = OperationSuccessful;
-    NSString* directory = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:folderName];
+    NSString* directory = [self.rootDocumentDirectory stringByAppendingPathComponent:folderName];
     
     DLog(@"Removing all filer from folder %@",folderName);
-    if ([fileManager fileExistsAtPath:directory isDirectory:&isDir]) {
+    if ([self.fileManager fileExistsAtPath:directory isDirectory:&isDir]) {
         
         NSError* error = nil;
         NSArray* listOfAllFilesInFolder = [self getListOfAllFilesFromFolder:folderName];
     
         for (NSString* filePath in listOfAllFilesInFolder) {
-            if ([fileManager fileExistsAtPath:filePath isDirectory:&isDir]) {
-                BOOL fileDeletionOperationSuccessfulStatus = [fileManager removeItemAtPath:filePath error:&error];
+            if ([self.fileManager fileExistsAtPath:filePath isDirectory:&isDir]) {
+                BOOL fileDeletionOperationSuccessfulStatus = [self.fileManager removeItemAtPath:filePath error:&error];
                 if(!fileDeletionOperationSuccessfulStatus) {
                     status = OperationFailed;
                     break;
@@ -138,15 +147,14 @@
     return status;
 }
 
-+ (OperationStatus)removeFile:(NSString*)fileName fromFolder:(NSString*)folderName {
+- (OperationStatus)removeFile:(NSString*)fileName fromFolder:(NSString*)folderName {
     OperationStatus status = OperationSuccessful;
-    NSString* fullFilePath = [[[self applicationDocumentsDirectory] stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* fullFilePath = [[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
     BOOL isDir = false;
     NSError* error = nil;
     
-    if ([fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir]) {
-        BOOL fileDeletionOperationSuccessfulStatus = [fileManager removeItemAtPath:fullFilePath error:&error];
+    if ([self.fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir]) {
+        BOOL fileDeletionOperationSuccessfulStatus = [self.fileManager removeItemAtPath:fullFilePath error:&error];
         if(!fileDeletionOperationSuccessfulStatus) {
             status = OperationFailed;
         } else {
@@ -158,35 +166,34 @@
     return status;
 }
 
-+ (NSArray*)getListOfAllFilesFromFolder:(NSString*)folderName {
+- (NSArray*)getListOfAllFilesFromFolder:(NSString*)folderName {
     
-    NSString* documentsPath = [self applicationDocumentsDirectory];
     folderName = [self escapeName:folderName];
-    NSArray* listOfAllFileNameFromDirectory = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[documentsPath stringByAppendingPathComponent:folderName] error:NULL];
+    NSArray* listOfAllFileNameFromDirectory = [self.fileManager contentsOfDirectoryAtPath:[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] error:NULL];
     
     NSMutableArray* listOfAllFilesWithDocumentsPathAppended = [NSMutableArray new];
     NSString* updatedFileNameWithDocumentsPath;
     
     for (NSString* individualFileName in listOfAllFileNameFromDirectory) {
         
-        updatedFileNameWithDocumentsPath = [NSString stringWithFormat:@"%@/%@/%@", documentsPath, folderName, individualFileName];
+        updatedFileNameWithDocumentsPath = [NSString stringWithFormat:@"%@/%@/%@", self.rootDocumentDirectory, folderName, individualFileName];
         [listOfAllFilesWithDocumentsPathAppended addObject:updatedFileNameWithDocumentsPath];
     }
     DLog(@"Getting list of all files from folder %@", folderName);
     return listOfAllFilesWithDocumentsPathAppended;
 }
 
-+ (OperationStatus)removeFolderFromDefaultDocumentDirectory:(NSString*)folderName {
+- (OperationStatus)removeFolderFromDefaultDocumentDirectory:(NSString*)folderName {
     
     NSError* error = nil;
     folderName = [self escapeName:folderName];
-    NSString* fullFolderPath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:folderName];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* fullFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:folderName];
+    
     OperationStatus status = OperationSuccessful;
     
     //Removes whole directory pattern from system
-    if ([fileManager fileExistsAtPath:fullFolderPath]) {
-        BOOL folderDeletionOperationSuccessfulStatus = [fileManager removeItemAtPath:fullFolderPath error:&error];
+    if ([self.fileManager fileExistsAtPath:fullFolderPath]) {
+        BOOL folderDeletionOperationSuccessfulStatus = [self.fileManager removeItemAtPath:fullFolderPath error:&error];
         if(!folderDeletionOperationSuccessfulStatus || error) {
             status = OperationFailed;
         } else {
@@ -198,49 +205,47 @@
     return status;
 }
 
-+(OperationStatus)moveFile:(NSString*)fileName fromFolder:(NSString*)sourceFolder toDestinationFolder:(NSString*)destinationFolder {
+- (OperationStatus)moveFile:(NSString*)fileName fromFolder:(NSString*)sourceFolder toDestinationFolder:(NSString*)destinationFolder {
     
     sourceFolder = [self escapeName:sourceFolder];
     destinationFolder = [self escapeName:destinationFolder];
     
-    NSString* defaultDocumentDirectory = [self applicationDocumentsDirectory];
-    NSString *fromPath=[defaultDocumentDirectory stringByAppendingPathComponent:sourceFolder];
-    NSString *toPath = [defaultDocumentDirectory stringByAppendingPathComponent:destinationFolder];
+    NSString *fromPath=[self.rootDocumentDirectory stringByAppendingPathComponent:sourceFolder];
+    NSString *toPath = [self.rootDocumentDirectory stringByAppendingPathComponent:destinationFolder];
     NSString *sourceFileFullPath = [fromPath stringByAppendingPathComponent:fileName];
     NSString *destinationFileFullPath = [toPath stringByAppendingPathComponent:fileName];
     NSError *error = nil;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+
     BOOL isDir = false;
     OperationStatus status = OperationSuccessful;
     
     DLog(@"Moving file %@ from folder %@ to folder %@",fileName, sourceFolder, destinationFolder);
-    if(![fileManager fileExistsAtPath:sourceFileFullPath isDirectory:&isDir] || ![fileManager fileExistsAtPath:toPath isDirectory:&isDir]) {
+    if(![self.fileManager fileExistsAtPath:sourceFileFullPath isDirectory:&isDir] || ![self.fileManager fileExistsAtPath:toPath isDirectory:&isDir]) {
         status = OperationFailed;
     } else {
-        if([fileManager fileExistsAtPath:destinationFileFullPath isDirectory:&isDir]) {
-            [fileManager removeItemAtPath:destinationFileFullPath error:&error];
+        if([self.fileManager fileExistsAtPath:destinationFileFullPath isDirectory:&isDir]) {
+            [self.fileManager removeItemAtPath:destinationFileFullPath error:&error];
         }
         
-        if(![fileManager moveItemAtPath:sourceFileFullPath toPath:destinationFileFullPath error:&error]){
+        if(![self.fileManager moveItemAtPath:sourceFileFullPath toPath:destinationFileFullPath error:&error]){
             status = OperationFailed;
         }
     }
     return status;
 }
 
-+ (OperationStatus)renameFile:(NSString*)sourceFileName toDestinationFileName:(NSString*)destinationFileName andFolderName:(NSString*)folderName {
+- (OperationStatus)renameFile:(NSString*)sourceFileName toDestinationFileName:(NSString*)destinationFileName andFolderName:(NSString*)folderName {
     
     OperationStatus status = OperationSuccessful;
     folderName = [self escapeName:folderName];
-    NSString* defaultDocumentDirectory = [self applicationDocumentsDirectory];
-    NSString* sourceFile = [[defaultDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:sourceFileName];
-    NSString* destinationFile = [[defaultDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:destinationFileName];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* sourceFile = [[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:sourceFileName];
+    NSString* destinationFile = [[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:destinationFileName];
+
     NSError* error = nil;
     BOOL isDir = false;
     //Check if file indeed exists
-    if([fileManager fileExistsAtPath:sourceFile isDirectory:&isDir]) {
-        BOOL fileMoveOperationSuccessful = [fileManager moveItemAtPath:sourceFile toPath:destinationFile error:&error];
+    if([self.fileManager fileExistsAtPath:sourceFile isDirectory:&isDir]) {
+        BOOL fileMoveOperationSuccessful = [self.fileManager moveItemAtPath:sourceFile toPath:destinationFile error:&error];
         if(!fileMoveOperationSuccessful || error) {
             status = OperationFailed;
         }
@@ -250,21 +255,20 @@
     return status;
 }
 
-+(OperationStatus)renameFolderWithSourceName:(NSString*)sourceFolderName andDestinationFolder:(NSString*)destinationFolderName {
+-(OperationStatus)renameFolderWithSourceName:(NSString*)sourceFolderName andDestinationFolder:(NSString*)destinationFolderName {
     OperationStatus status = OperationSuccessful;
     
     sourceFolderName = [self escapeName:sourceFolderName];
     destinationFolderName = [self escapeName:destinationFolderName];
     
-    NSString* rootDirectoryPath = [self applicationDocumentsDirectory];
-    NSString* sourceFolderPath = [rootDirectoryPath stringByAppendingPathComponent:sourceFolderName];
-    NSString* destinationFolderPath = [rootDirectoryPath stringByAppendingPathComponent:destinationFolderName];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* sourceFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:sourceFolderName];
+    NSString* destinationFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:destinationFolderName];
+
     NSError* error = nil;
     BOOL isDir = false;
     
-    if([fileManager fileExistsAtPath:sourceFolderPath isDirectory:&isDir]) {
-        BOOL didFolderRenameOperationSuccessful = [fileManager moveItemAtPath:sourceFolderPath toPath:destinationFolderPath error:&error];
+    if([self.fileManager fileExistsAtPath:sourceFolderPath isDirectory:&isDir]) {
+        BOOL didFolderRenameOperationSuccessful = [self.fileManager moveItemAtPath:sourceFolderPath toPath:destinationFolderPath error:&error];
         if(!didFolderRenameOperationSuccessful || error) {
             status = OperationFailed;
         }
@@ -274,12 +278,12 @@
     return status;
 }
 
-+ (NSArray*)getListOfAllFolderFromDefaultDirectory {
+- (NSArray*)getListOfAllFolderFromDefaultDirectory {
     DLog(@"Getting list of all folder from default documents directory");
-    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
+    return [self.fileManager contentsOfDirectoryAtPath:self.rootDocumentDirectory error:nil];
 }
 
-+(BOOL)isValueNullOrNil:(NSString*)inputValue {
+- (BOOL)isValueNullOrNil:(NSString*)inputValue {
     return ((inputValue == nil) || (inputValue == (id)[NSNull null]));
 }
 
