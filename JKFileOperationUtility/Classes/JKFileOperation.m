@@ -40,7 +40,7 @@
 }
 
 - (NSString*)escapeName:(NSString*)inputFileName {
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9_ !]+" options:0 error:nil];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9_ .-!]+" options:0 error:nil];
     return [[regex stringByReplacingMatchesInString:inputFileName options:0 range:NSMakeRange(0, inputFileName.length) withTemplate:@"-"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
 }
 
@@ -71,7 +71,7 @@
 
 - (void)storeFileWithURL:(NSString*)fileSourceURL inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)imageFileName completion:(void (^)(FileCreationStatus status))completion {
     
-    folderName = [self escapeName:folderName];
+    imageFileName = [self escapeName:imageFileName];
     NSString* fullImageFilePath = [self.rootDocumentDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@.png", folderName, imageFileName]];
     __block FileCreationStatus status = NewFileCreated;
     BOOL isURLValid = ![self isValueNullOrNil:fileSourceURL];
@@ -103,7 +103,7 @@
 
 - (FileCreationStatus)storeImageWithImage:(UIImage*)imageToStore inFolderWithName:(NSString*)folderName andImageFileName:(NSString*)fileName {
     FileCreationStatus status = NewFileCreated;
-    folderName = [self escapeName:folderName];
+    fileName = [self escapeName:fileName];
     NSString* fullFilePath = [self.rootDocumentDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@.png", folderName, fileName]];
     BOOL isDir = false;
     if([self.fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir]) {
@@ -119,7 +119,7 @@
 - (OperationStatus)removeAllFilesFromFolder:(NSString*)folderName {
     
     BOOL isDir;
-    folderName = [self escapeName:folderName];
+    //folderName = [self escapeName:folderName];
     OperationStatus status = OperationSuccessful;
     NSString* directory = [self.rootDocumentDirectory stringByAppendingPathComponent:folderName];
     
@@ -149,6 +149,7 @@
 
 - (OperationStatus)removeFile:(NSString*)fileName fromFolder:(NSString*)folderName {
     OperationStatus status = OperationSuccessful;
+    fileName = [self escapeName:fileName];
     NSString* fullFilePath = [[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
     BOOL isDir = false;
     NSError* error = nil;
@@ -168,7 +169,7 @@
 
 - (NSArray*)getListOfAllFilesFromFolder:(NSString*)folderName {
     
-    folderName = [self escapeName:folderName];
+    //folderName = [self escapeName:folderName];
     NSArray* listOfAllFileNameFromDirectory = [self.fileManager contentsOfDirectoryAtPath:[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] error:NULL];
     
     NSMutableArray* listOfAllFilesWithDocumentsPathAppended = [NSMutableArray new];
@@ -186,7 +187,7 @@
 - (OperationStatus)removeFolderFromDefaultDocumentDirectory:(NSString*)folderName {
     
     NSError* error = nil;
-    folderName = [self escapeName:folderName];
+    //folderName = [self escapeName:folderName];
     NSString* fullFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:folderName];
     
     OperationStatus status = OperationSuccessful;
@@ -207,8 +208,9 @@
 
 - (OperationStatus)moveFile:(NSString*)fileName fromFolder:(NSString*)sourceFolder toDestinationFolder:(NSString*)destinationFolder {
     
-    sourceFolder = [self escapeName:sourceFolder];
-    destinationFolder = [self escapeName:destinationFolder];
+    //sourceFolder = [self escapeName:sourceFolder];
+    //destinationFolder = [self escapeName:destinationFolder];
+    fileName = [self escapeName:fileName];
     
     NSString *fromPath=[self.rootDocumentDirectory stringByAppendingPathComponent:sourceFolder];
     NSString *toPath = [self.rootDocumentDirectory stringByAppendingPathComponent:destinationFolder];
@@ -237,7 +239,9 @@
 - (OperationStatus)renameFile:(NSString*)sourceFileName toDestinationFileName:(NSString*)destinationFileName andFolderName:(NSString*)folderName {
     
     OperationStatus status = OperationSuccessful;
-    folderName = [self escapeName:folderName];
+    sourceFileName = [self escapeName:sourceFileName];
+    destinationFileName = [self escapeName:destinationFileName];
+    
     NSString* sourceFile = [[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:sourceFileName];
     NSString* destinationFile = [[self.rootDocumentDirectory stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:destinationFileName];
 
@@ -258,8 +262,8 @@
 -(OperationStatus)renameFolderWithSourceName:(NSString*)sourceFolderName andDestinationFolder:(NSString*)destinationFolderName {
     OperationStatus status = OperationSuccessful;
     
-    sourceFolderName = [self escapeName:sourceFolderName];
-    destinationFolderName = [self escapeName:destinationFolderName];
+    //sourceFolderName = [self escapeName:sourceFolderName];
+    //destinationFolderName = [self escapeName:destinationFolderName];
     
     NSString* sourceFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:sourceFolderName];
     NSString* destinationFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:destinationFolderName];
