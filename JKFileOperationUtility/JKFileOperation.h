@@ -43,6 +43,7 @@ typedef NSInteger OperationStatus;
 + (NSArray*)getListOfAllFilesFromFolder:(NSString*)folderName;
 + (OperationStatus)moveFile:(NSString*)fileName fromFolder:(NSString*)sourceFolder toDestinationFolder:(NSString*)destinationFolder;
 + (NSArray*)getListOfAllFolderFromDefaultDirectory;
++ (OperationStatus)removeFile:(NSString*)fileName fromFolder:(NSString*)folderName;
 + (OperationStatus)renameFile:(NSString*)sourceFileName toDestinationFileName:(NSString*)destinationFileName andFolderName:(NSString*)folderName;
 +(OperationStatus)renameFolderWithSourceName:(NSString*)sourceFolderName andDestinationFolder:(NSString*)destinationFolderName;
 

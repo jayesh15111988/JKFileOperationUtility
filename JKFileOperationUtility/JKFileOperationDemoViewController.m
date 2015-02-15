@@ -85,7 +85,7 @@
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
             if([indexSelected integerValue] > 0) {
                 [JKFileOperation removeFolderFromDefaultDocumentDirectory:folderName];
-                [self getRecentFoldersAndReloadTable];
+                [self  getRecentFoldersAndReloadTable];
             } else {
                 [cell hideUtilityButtonsAnimated:YES];
             }
@@ -93,8 +93,14 @@
         [alert show];
     } else if (index ==2) {
         //Remove all files from folder
-        [JKFileOperation removeAllFilesFromFolder:folderName];
-        [self getRecentFoldersAndReloadTable];
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Delete All" message:@"Are you sure you want to remove all files from selected folder?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber* indexSelected) {
+            if([indexSelected integerValue] > 0) {
+                [JKFileOperation removeAllFilesFromFolder:folderName];
+                [self getRecentFoldersAndReloadTable];
+            }
+        }];
+        [alert show];
     }
 }
 

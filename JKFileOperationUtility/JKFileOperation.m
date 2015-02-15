@@ -139,6 +139,26 @@
     return status;
 }
 
++ (OperationStatus)removeFile:(NSString*)fileName fromFolder:(NSString*)folderName {
+    OperationStatus status = OperationSuccessful;
+    NSString* fullFilePath = [[[self applicationDocumentsDirectory] stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    BOOL isDir = false;
+    NSError* error = nil;
+    
+    if ([fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir]) {
+        BOOL fileDeletionOperationSuccessfulStatus = [fileManager removeItemAtPath:fullFilePath error:&error];
+        if(!fileDeletionOperationSuccessfulStatus) {
+            status = OperationFailed;
+        } else {
+            DLog(@"File removal operation succeeded for file %@", [filePath lastPathComponent]);
+        }
+    } else {
+        status = OperationFailed;
+    }
+    return status;
+}
+
 + (NSArray*)getListOfAllFilesFromFolder:(NSString*)folderName {
     
     NSString* documentsPath = [self applicationDocumentsDirectory];
@@ -195,7 +215,7 @@
     OperationStatus status = OperationSuccessful;
     
     DLog(@"Moving file %@ from folder %@ to folder %@",fileName, sourceFolder, destinationFolder);
-    if(![fileManager fileExistsAtPath:sourceFileFullPath isDirectory:&isDir]) {
+    if(![fileManager fileExistsAtPath:sourceFileFullPath isDirectory:&isDir] || ![fileManager fileExistsAtPath:toPath isDirectory:&isDir]) {
         status = OperationFailed;
     } else {
         if([fileManager fileExistsAtPath:destinationFileFullPath isDirectory:&isDir]) {
