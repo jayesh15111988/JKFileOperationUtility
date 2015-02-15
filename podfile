@@ -1,0 +1,2 @@
+pod 'AFNetworking-RACExtensions', :git => 'https://github.com/knshiro/AFNetworking-RACExtensions.git'
+pod 'SWTableViewCell', '~> 0.3.7'
