@@ -46,7 +46,7 @@
 
 - (FolderCreationStatus)createOrCheckForFolderWithName:(NSString*)newFolderName {
     
-    newFolderName = [self escapeName:newFolderName];
+    //newFolderName = [self escapeName:newFolderName];
     NSString* fullFolderPath = [self.rootDocumentDirectory stringByAppendingPathComponent:newFolderName];
     BOOL isDir;
     NSError* error = nil;
