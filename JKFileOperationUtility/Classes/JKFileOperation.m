@@ -150,7 +150,7 @@
         if(!fileDeletionOperationSuccessfulStatus) {
             status = OperationFailed;
         } else {
-            DLog(@"File removal operation succeeded for file %@", [filePath lastPathComponent]);
+            DLog(@"File removal operation succeeded for file %@", [fullFilePath lastPathComponent]);
         }
     } else {
         status = OperationFailed;
