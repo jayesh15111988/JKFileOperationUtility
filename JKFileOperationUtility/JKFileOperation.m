@@ -262,8 +262,8 @@
     NSString* destinationFolderPath = [rootDirectoryPath stringByAppendingPathComponent:destinationFolderName];
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSError* error = nil;
-    
     BOOL isDir = false;
+    
     if([fileManager fileExistsAtPath:sourceFolderPath isDirectory:&isDir]) {
         BOOL didFolderRenameOperationSuccessful = [fileManager moveItemAtPath:sourceFolderPath toPath:destinationFolderPath error:&error];
         if(!didFolderRenameOperationSuccessful || error) {
@@ -272,7 +272,6 @@
     } else {
         status = OperationFailed;
     }
-    
     return status;
 }
 
@@ -284,4 +283,5 @@
 +(BOOL)isValueNullOrNil:(NSString*)inputValue {
     return ((inputValue == nil) || (inputValue == (id)[NSNull null]));
 }
+
 @end

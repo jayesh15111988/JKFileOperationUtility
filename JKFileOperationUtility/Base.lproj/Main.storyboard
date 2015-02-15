@@ -62,12 +62,36 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ixX-OJ-joj"/>
                                 </connections>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5F6-NS-k0z">
+                                <rect key="frame" x="0.0" y="64" width="320" height="300"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Folders Found so far. Please press add button in the top right corner" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhf-0h-l1h">
+                                        <rect key="frame" x="20" y="100" width="280" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="SnD-YV-DQ0"/>
+                                            <constraint firstAttribute="width" constant="280" id="Uyi-oE-UYz"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.29018701619372989" green="1" blue="0.69905854273043588" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="Zhf-0h-l1h" secondAttribute="centerX" id="649-pr-fde"/>
+                                    <constraint firstAttribute="height" constant="300" id="IH0-em-MtK"/>
+                                    <constraint firstAttribute="centerY" secondItem="Zhf-0h-l1h" secondAttribute="centerY" id="xJ7-Fj-4w0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="v83-vV-p5i" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="987-8s-SVz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5F6-NS-k0z" secondAttribute="trailing" constant="-16" id="NTw-PY-VoH"/>
+                            <constraint firstItem="5F6-NS-k0z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="fwL-iw-xD1"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="v83-vV-p5i" secondAttribute="bottom" id="qiO-3p-EvN"/>
                             <constraint firstItem="v83-vV-p5i" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="uh8-vD-O8H"/>
+                            <constraint firstItem="5F6-NS-k0z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="wbO-Fy-jnz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="v83-vV-p5i" secondAttribute="trailing" constant="-16" id="zqp-Lm-Olc"/>
                         </constraints>
                     </view>
@@ -75,6 +99,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="footerView" destination="k8v-5r-eUh" id="GPH-rP-RbQ"/>
+                        <outlet property="noFolderFoundView" destination="5F6-NS-k0z" id="ffB-er-sH7"/>
                         <outlet property="tableView" destination="v83-vV-p5i" id="lXK-bF-ubB"/>
                     </connections>
                 </viewController>
@@ -135,12 +160,36 @@
                                 <rect key="frame" x="142" y="64" width="37" height="37"/>
                                 <color key="color" red="1" green="0.56211517820000001" blue="0.2481714086" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0h5-3e-dOa">
+                                <rect key="frame" x="0.0" y="64" width="320" height="300"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Files Found so far. Please press add button in the top right corner" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ij-Fh-DlV">
+                                        <rect key="frame" x="20" y="100" width="280" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="AFQ-yT-mvY"/>
+                                            <constraint firstAttribute="width" constant="280" id="qs4-9z-fhQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.29018701619999998" green="1" blue="0.69905854270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="A1s-mM-wC8"/>
+                                    <constraint firstAttribute="centerX" secondItem="3Ij-Fh-DlV" secondAttribute="centerX" id="Sy9-2q-tdE"/>
+                                    <constraint firstAttribute="centerY" secondItem="3Ij-Fh-DlV" secondAttribute="centerY" id="nCq-Np-W1i"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3Jm-a2-N7U" firstAttribute="top" secondItem="4Iu-Rl-8ZY" secondAttribute="bottom" id="9Ki-tA-1IV"/>
+                            <constraint firstItem="0h5-3e-dOa" firstAttribute="leading" secondItem="Dso-YN-Kdc" secondAttribute="leadingMargin" constant="-16" id="FHX-dA-k1f"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0h5-3e-dOa" secondAttribute="trailing" constant="-16" id="SC7-g8-CZV"/>
                             <constraint firstItem="4Iu-Rl-8ZY" firstAttribute="top" secondItem="hUC-A1-Mf5" secondAttribute="bottom" id="bJX-RD-oc5"/>
                             <constraint firstItem="4Iu-Rl-8ZY" firstAttribute="leading" secondItem="Dso-YN-Kdc" secondAttribute="leadingMargin" constant="-16" id="dhN-rm-lfj"/>
+                            <constraint firstItem="0h5-3e-dOa" firstAttribute="top" secondItem="hUC-A1-Mf5" secondAttribute="bottom" id="kum-ZX-pUa"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4Iu-Rl-8ZY" secondAttribute="trailing" constant="-16" id="nlW-mK-pme"/>
                         </constraints>
                     </view>
@@ -149,6 +198,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="DwT-8P-aNP" id="HN2-oV-cYe"/>
+                        <outlet property="filesNotFoundView" destination="0h5-3e-dOa" id="h4d-sM-swI"/>
                         <outlet property="footer" destination="HhH-ik-kUK" id="mRL-Ed-8o0"/>
                         <outlet property="tableView" destination="4Iu-Rl-8ZY" id="4hw-ZO-iJr"/>
                     </connections>

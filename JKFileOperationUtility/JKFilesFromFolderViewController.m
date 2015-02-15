@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray* filesCollection;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIView *filesNotFoundView;
 @end
 
 @implementation JKFilesFromFolderViewController
@@ -32,6 +33,7 @@
     self.filesCollection = [JKFileOperation getListOfAllFilesFromFolder:self.selectedFolder];
     [self.tableView reloadData];
     [self.activityIndicator stopAnimating];
+    self.filesNotFoundView.hidden = ([self.filesCollection count] != 0);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
