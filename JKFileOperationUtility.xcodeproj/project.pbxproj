@@ -15,6 +15,8 @@
 		381C766E1A8FC75E000F55DA /* JKFileOperationUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C766D1A8FC75E000F55DA /* JKFileOperationUtilityTests.m */; };
 		381C76791A8FC82F000F55DA /* JKFileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C76781A8FC82F000F55DA /* JKFileOperation.m */; };
 		381C767D1A9008A9000F55DA /* JKFileOperationDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C767C1A9008A9000F55DA /* JKFileOperationDemoViewController.m */; };
+		381C76811A9012F5000F55DA /* JKFolderNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C76801A9012F5000F55DA /* JKFolderNameTableViewCell.m */; };
+		406B299F1B4C20D896F7610A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7290143E51DDF0D1E6BDA83D /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,11 @@
 		381C76781A8FC82F000F55DA /* JKFileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFileOperation.m; sourceTree = "<group>"; };
 		381C767B1A9008A9000F55DA /* JKFileOperationDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKFileOperationDemoViewController.h; sourceTree = "<group>"; };
 		381C767C1A9008A9000F55DA /* JKFileOperationDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFileOperationDemoViewController.m; sourceTree = "<group>"; };
+		381C767F1A9012F5000F55DA /* JKFolderNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKFolderNameTableViewCell.h; sourceTree = "<group>"; };
+		381C76801A9012F5000F55DA /* JKFolderNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFolderNameTableViewCell.m; sourceTree = "<group>"; };
+		7290143E51DDF0D1E6BDA83D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5E7EA6395307B97DB208D76 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FF96DD4CF5D6C27FF523B93E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				406B299F1B4C20D896F7610A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,12 +71,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25252C06B36E27C89DB91F9E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FF96DD4CF5D6C27FF523B93E /* Pods.debug.xcconfig */,
+				E5E7EA6395307B97DB208D76 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		381C76451A8FC75E000F55DA = {
 			isa = PBXGroup;
 			children = (
 				381C76501A8FC75E000F55DA /* JKFileOperationUtility */,
 				381C766A1A8FC75E000F55DA /* JKFileOperationUtilityTests */,
 				381C764F1A8FC75E000F55DA /* Products */,
+				25252C06B36E27C89DB91F9E /* Pods */,
+				4F11B8727F763E0DC2BA051A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +103,7 @@
 		381C76501A8FC75E000F55DA /* JKFileOperationUtility */ = {
 			isa = PBXGroup;
 			children = (
+				381C767E1A9012DC000F55DA /* Cells */,
 				381C767A1A900893000F55DA /* Controllers */,
 				381C76551A8FC75E000F55DA /* AppDelegate.h */,
 				381C76561A8FC75E000F55DA /* AppDelegate.m */,
@@ -132,6 +152,23 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		381C767E1A9012DC000F55DA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				381C767F1A9012F5000F55DA /* JKFolderNameTableViewCell.h */,
+				381C76801A9012F5000F55DA /* JKFolderNameTableViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		4F11B8727F763E0DC2BA051A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7290143E51DDF0D1E6BDA83D /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,9 +176,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 381C76711A8FC75E000F55DA /* Build configuration list for PBXNativeTarget "JKFileOperationUtility" */;
 			buildPhases = (
+				18C10B758C29C05DD8D947C7 /* Check Pods Manifest.lock */,
 				381C764A1A8FC75E000F55DA /* Sources */,
 				381C764B1A8FC75E000F55DA /* Frameworks */,
 				381C764C1A8FC75E000F55DA /* Resources */,
+				3F5EFCB7CB4F1DC721E2EB5B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -227,6 +266,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		18C10B758C29C05DD8D947C7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3F5EFCB7CB4F1DC721E2EB5B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		381C764A1A8FC75E000F55DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -234,6 +306,7 @@
 			files = (
 				381C767D1A9008A9000F55DA /* JKFileOperationDemoViewController.m in Sources */,
 				381C76571A8FC75E000F55DA /* AppDelegate.m in Sources */,
+				381C76811A9012F5000F55DA /* JKFolderNameTableViewCell.m in Sources */,
 				381C76541A8FC75E000F55DA /* main.m in Sources */,
 				381C76791A8FC82F000F55DA /* JKFileOperation.m in Sources */,
 			);
@@ -357,6 +430,7 @@
 		};
 		381C76721A8FC75E000F55DA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF96DD4CF5D6C27FF523B93E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -372,6 +446,7 @@
 		};
 		381C76731A8FC75E000F55DA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5E7EA6395307B97DB208D76 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = JKFileOperationUtility/Info.plist;
@@ -433,6 +508,7 @@
 				381C76731A8FC75E000F55DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		381C76741A8FC75E000F55DA /* Build configuration list for PBXNativeTarget "JKFileOperationUtilityTests" */ = {
 			isa = XCConfigurationList;
@@ -441,6 +517,7 @@
 				381C76761A8FC75E000F55DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
