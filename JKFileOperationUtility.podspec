@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = 'JKFileOperationUtility'
-  s.version       = '1.0'
+  s.version       = '1.1'
   s.license       = 'MIT'
   s.summary       = 'iOS File operations made easy with easy to use collection of APIs for basic file operations'
   s.homepage      = 'https://github.com/jayesh15111988'
@@ -11,4 +11,5 @@ Pod::Spec.new do |s|
   s.source_files  = 'JKFileOperationUtility/Classes/**'
   s.requires_arc  = true
   s.ios.deployment_target = '7.0'
+  s.dependency 'BlocksKit', '~> 2.2'
 end

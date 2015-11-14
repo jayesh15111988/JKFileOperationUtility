@@ -18,6 +18,7 @@
 		381C76811A9012F5000F55DA /* JKFolderNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C76801A9012F5000F55DA /* JKFolderNameTableViewCell.m */; };
 		381C76841A901FD9000F55DA /* JKFilesFromFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C76831A901FD9000F55DA /* JKFilesFromFolderViewController.m */; };
 		381C76871A90214E000F55DA /* JKFileNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C76861A90214E000F55DA /* JKFileNameTableViewCell.m */; };
+		38B1A0DB1BF79549008BD8E6 /* NSString+DecodeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B1A0DA1BF79549008BD8E6 /* NSString+DecodeString.m */; };
 		406B299F1B4C20D896F7610A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7290143E51DDF0D1E6BDA83D /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,8 @@
 		381C76831A901FD9000F55DA /* JKFilesFromFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFilesFromFolderViewController.m; sourceTree = "<group>"; };
 		381C76851A90214E000F55DA /* JKFileNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKFileNameTableViewCell.h; sourceTree = "<group>"; };
 		381C76861A90214E000F55DA /* JKFileNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKFileNameTableViewCell.m; sourceTree = "<group>"; };
+		38B1A0D91BF79549008BD8E6 /* NSString+DecodeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DecodeString.h"; sourceTree = "<group>"; };
+		38B1A0DA1BF79549008BD8E6 /* NSString+DecodeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DecodeString.m"; sourceTree = "<group>"; };
 		7290143E51DDF0D1E6BDA83D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5E7EA6395307B97DB208D76 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FF96DD4CF5D6C27FF523B93E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 			children = (
 				381C76771A8FC82F000F55DA /* JKFileOperation.h */,
 				381C76781A8FC82F000F55DA /* JKFileOperation.m */,
+				38B1A0D91BF79549008BD8E6 /* NSString+DecodeString.h */,
+				38B1A0DA1BF79549008BD8E6 /* NSString+DecodeString.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 				381C764B1A8FC75E000F55DA /* Frameworks */,
 				381C764C1A8FC75E000F55DA /* Resources */,
 				3F5EFCB7CB4F1DC721E2EB5B /* Copy Pods Resources */,
+				B1F919AF234C57C2C6C7950B /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -315,6 +321,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B1F919AF234C57C2C6C7950B /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -322,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38B1A0DB1BF79549008BD8E6 /* NSString+DecodeString.m in Sources */,
 				381C767D1A9008A9000F55DA /* JKFileOperationDemoViewController.m in Sources */,
 				381C76841A901FD9000F55DA /* JKFilesFromFolderViewController.m in Sources */,
 				381C76871A90214E000F55DA /* JKFileNameTableViewCell.m in Sources */,

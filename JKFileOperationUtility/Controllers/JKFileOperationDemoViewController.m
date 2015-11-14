@@ -36,7 +36,7 @@
 #pragma tableView datasource and delegate methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JKFolderNameTableViewCell* cell = (JKFolderNameTableViewCell*) [tableView dequeueReusableCellWithIdentifier:@"foldernamecell" forIndexPath:indexPath];
-    NSString* currentFolderName = self.allFoldersList[indexPath.row];
+    NSString* currentFolderName = [self.allFoldersList[indexPath.row] lastPathComponent];
     cell.folderNameLabel.text = currentFolderName;
     cell.rightUtilityButtons = [self rightButtons];
     cell.delegate = self;
@@ -49,7 +49,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JKFilesFromFolderViewController* filesViewerViewController = (JKFilesFromFolderViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"filescollection"];
-    NSString* selectedFolder = self.allFoldersList[indexPath.row];
+    NSString* selectedFolder = [self.allFoldersList[indexPath.row] lastPathComponent];
     filesViewerViewController.selectedFolder = selectedFolder;
     [self.navigationController pushViewController:filesViewerViewController animated:YES];
 }
@@ -138,7 +138,7 @@
 }
 
 -(void)getRecentFoldersAndReloadTable {
-    self.allFoldersList = [JKFileOperation getListOfAllFolderFromDefaultDirectory];
+    self.allFoldersList = [JKFileOperation getListOfAllFilesFromBaseFolder:@""];
     [self.tableView reloadData];
     self.noFolderFoundView.hidden = ([self.allFoldersList count] != 0);
     self.navigationItem.leftBarButtonItem.enabled = (self.noFolderFoundView.hidden);

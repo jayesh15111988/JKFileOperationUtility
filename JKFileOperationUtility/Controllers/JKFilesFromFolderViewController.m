@@ -30,7 +30,7 @@
 }
 
 -(void)getAllFilesFromCurrentFolderAndReloadTable {
-    self.filesCollection = [JKFileOperation getListOfAllFilesFromFolder:self.selectedFolder];
+    self.filesCollection = [JKFileOperation getListOfAllFilesFromBaseFolder:self.selectedFolder];
     [self.tableView reloadData];
     [self.activityIndicator stopAnimating];
     self.filesNotFoundView.hidden = ([self.filesCollection count] != 0);
@@ -43,8 +43,15 @@
     
     NSString* fileFullPathInDocumentDirectory = self.filesCollection[indexPath.row];
     NSString* nameOfFile = [[fileFullPathInDocumentDirectory lastPathComponent] stringByDeletingPathExtension];
+    BOOL isDir = NO;
+    
+    [[NSFileManager defaultManager] fileExistsAtPath:fileFullPathInDocumentDirectory isDirectory:&isDir];
     fileNameCell.fileName.text = nameOfFile;
-    fileNameCell.fileImage.image = [UIImage imageWithContentsOfFile:fileFullPathInDocumentDirectory];
+    
+    if(isDir == NO) {
+        fileNameCell.fileImage.image = [UIImage imageWithContentsOfFile:fileFullPathInDocumentDirectory];
+    }
+    
     return fileNameCell;
 }
 
