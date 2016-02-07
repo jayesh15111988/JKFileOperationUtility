@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = 'JKFileOperationUtility'
-  s.version       = '1.1'
+  s.version       = '1.2'
   s.license       = 'MIT'
   s.summary       = 'iOS File operations made easy with easy to use collection of APIs for basic file operations'
   s.homepage      = 'https://github.com/jayesh15111988'

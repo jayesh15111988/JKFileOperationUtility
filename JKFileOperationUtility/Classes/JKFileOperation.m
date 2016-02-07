@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Jayesh Kawli Backup. All rights reserved.
 //
 
+#import "JKFileOperation.h"
+#import "NSString+DecodeString.h"
 #import <BlocksKit/NSArray+BlocksKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "NSString+DecodeString.h"
-#import "JKFileOperation.h"
 
 #if defined(DEBUG) && !defined(DISABLELOG)
 #define DLog(xx, ...) NSLog (@"%s(%d): " xx, ((strrchr (__FILE__, '/') ?: __FILE__ - 1) + 1), __LINE__, ##__VA_ARGS__)
@@ -71,7 +71,7 @@
 + (void)storeFileWithURL:(NSString*)fileSourceURL
         inFolderWithName:(NSString*)folderName
         andImageFileName:(NSString*)imageFileName
-              completion:(void (^)(FileCreationStatus status))completion {
+              completion:(void (^) (FileCreationStatus status))completion {
 
     imageFileName = [self escapeName:imageFileName];
     NSString* fullImageFilePath = [[self applicationDocumentsDirectory]
@@ -325,6 +325,8 @@
                 UTTypeCreatePreferredIdentifierForTag (kUTTagClassFilenameExtension, fileExtension, NULL);
             if (UTTypeConformsTo (fileUTI, kUTTypeImage)) {
                 return FileTypeImage;
+            } else if (UTTypeConformsTo (fileUTI, kUTTypeMovie)) {
+                return FileTypeVideo;
             }
         }
     }
